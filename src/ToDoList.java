@@ -18,7 +18,10 @@ public class ToDoList {
 
     public ToDoList(ToDoList list) {
         this.name = list.name;
-        this.tasks = new ArrayList<>(list.tasks);
+        this.tasks = new ArrayList<>();
+        for (Task task : list.tasks) {
+            this.tasks.add(task);
+        }
     }
 
     public void setName(String name) {
@@ -38,11 +41,11 @@ public class ToDoList {
     }
 
     public void addTask(Task task) {
-        this.tasks.add(task);
+        tasks.add(task);
     }
 
     public void removeTask(Task task){
-        this.tasks.remove(task);
+        tasks.remove(task);
     }
 
 

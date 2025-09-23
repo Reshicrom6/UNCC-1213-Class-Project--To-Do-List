@@ -41,7 +41,7 @@ public class Task {
     }
 
     public void setCategory(TaskCategory category) {
-        this.category = category;
+         this.category = category;
         if (category == TaskCategory.OTHER) {
             promptForCustomCategory();
         }

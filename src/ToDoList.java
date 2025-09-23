@@ -48,5 +48,7 @@ public class ToDoList {
         tasks.remove(task);
     }
 
-
+    public String toString() {
+        return "";
+    }
 }

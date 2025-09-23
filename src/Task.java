@@ -5,23 +5,23 @@ public class Task {
     private List<User> users;
     private String name;
     private TaskCategory category;
-    private boolean isComplete;
+    private boolean isComplete = false;
     private String deadline;
+    private String customCategory = "";
 
 
     public Task() {
         this.name = "";
-        this.category = TaskCategory.OTHER;
+        this.category = TaskCategory.EVENT;
         this.deadline = "00:00";
-        this.isComplete = false;
         this.users = new ArrayList<>();
     }
 
-    public Task(String name, TaskCategory category, String deadLine, boolean isComplete) {
+    public Task(String name, TaskCategory category, String deadLine) {
         this.name = name;
         this.category = category;
         this.deadline = deadLine;
-        this.isComplete = isComplete;
+        
         this.users = new ArrayList<>();
     }
 
@@ -31,7 +31,7 @@ public class Task {
         this.deadline = task.deadline;
         this.isComplete = task.isComplete;
         this.users = new ArrayList<>();
-        for(User user : task.users) {
+        for (User user : task.users) {
             this.users.add(new User(user));
         }
     }
@@ -42,6 +42,9 @@ public class Task {
 
     public void setCategory(TaskCategory category) {
         this.category = category;
+        if (category == TaskCategory.OTHER) {
+            promptForCustomCategory();
+        }
     }
 
     public void setDeadline(String deadline) {
@@ -50,6 +53,22 @@ public class Task {
 
     public void setComplete() {
         isComplete = true;
+    }
+
+    public void setCustomCategory(String category) {
+        this.customCategory = category;
+    }
+
+        public void promptForCustomCategory() {
+            if (category == TaskCategory.OTHER) {
+                java.util.Scanner scanner = new java.util.Scanner(System.in);
+                System.out.print("Enter custom category: ");
+                customCategory = scanner.nextLine();
+            }
+        }
+
+    public void setUsers (List<User> users) {
+        this.users = users;
     }
 
     public String getName() {
@@ -72,8 +91,8 @@ public class Task {
         return users;
     }
 
-    public void setUsers (List<User> users) {
-        this.users = users;
+    public String getCustomCategory() {
+        return customCategory;
     }
 
     public void addUser(User user) {

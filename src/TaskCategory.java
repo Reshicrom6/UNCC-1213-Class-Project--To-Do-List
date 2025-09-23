@@ -4,5 +4,6 @@ public enum TaskCategory {
     APPOINTMENT,
     FAMILY,
     EVENT,
+    CHORE,
     OTHER
 }

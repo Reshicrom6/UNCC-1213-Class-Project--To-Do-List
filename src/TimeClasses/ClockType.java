@@ -4,8 +4,10 @@
  * it represents, and how to use it.
  *
  * @author  TODO Your Name
- * @version Sep 23, 2025
+ * @version Sep 24, 2025
  */
-public class Time {
-    
+package TimeClasses;
+public enum ClockType {
+    TWELVE_HOUR,
+    TWENTY_FOUR_HOUR;
 }

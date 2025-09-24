@@ -1,3 +1,4 @@
+package TaskClasses;
 public enum TaskCategory {
     SCHOOL,
     WORK,

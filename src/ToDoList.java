@@ -1,5 +1,6 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+import TaskClasses.*;
 public class ToDoList {
 
     private String name;
@@ -20,7 +21,7 @@ public class ToDoList {
         this.name = list.name;
         this.tasks = new ArrayList<>();
         for (Task task : list.tasks) {
-            this.tasks.add(task);
+            this.tasks.add(new Task(task)); // deep copy
         }
     }
 
@@ -29,7 +30,10 @@ public class ToDoList {
     }
 
     public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
+        this.tasks = new ArrayList<>();
+        for (Task task : tasks) {
+            this.tasks.add(new Task(task)); // deep copy
+        }
     }
 
     public List<Task> getTasks() {
@@ -49,6 +53,11 @@ public class ToDoList {
     }
 
     public String toString() {
-        return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append("To-Do List: ").append(name).append("\n");
+        for (Task task : tasks) {
+            sb.append(task.toString()).append("\n");
+        }
+        return sb.toString();
     }
 }

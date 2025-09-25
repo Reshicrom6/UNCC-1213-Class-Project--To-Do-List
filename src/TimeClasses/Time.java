@@ -11,10 +11,10 @@ public class Time {
 
     private int hour;
     private int minute;
-    private ClockType clockType; // 12_HOUR or 24_HOUR
-    private HourPeriod hourPeriod; // AM or PM, only for 12_HOUR
+    private ClockType clockType; 
+    private HourPeriod hourPeriod; 
 
-    // Default constructor (midnight, 24-hour)
+    
     public Time() {
         this.hour = 0;
         this.minute = 0;
@@ -22,7 +22,7 @@ public class Time {
         this.hourPeriod = null;
     }
 
-    // 24-hour constructor
+    
     public Time(int hour, int minute) {
         this.clockType = ClockType.TWENTY_FOUR_HOUR;
         setHour(hour);

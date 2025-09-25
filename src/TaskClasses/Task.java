@@ -2,12 +2,15 @@ package TaskClasses;
 import java.util.*;
 
 public class Task {
+
+    //fields
     private List<User> users;
     private String name;
     private Category category;
     private boolean isComplete = false;
     private deadLine deadline;
 
+    //constructors
     public Task() {
         this.name = "";
         this.category = new Category();
@@ -33,6 +36,7 @@ public class Task {
         }
     }
 
+    //setters
     public void setName(String name) {
         this.name = name;
     }
@@ -53,6 +57,7 @@ public class Task {
         this.users = users;
     }
 
+    //getters
     public String getName() {
         return name;
     }
@@ -73,14 +78,17 @@ public class Task {
         return users;
     }
 
+    //adds a user from the user list
     public void addUser(User user) {
         users.add(user);
     }
 
+    //removes a user from the user list
     public void removeUser(User user) {
         users.remove(user);
     }
 
+    //toString method
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

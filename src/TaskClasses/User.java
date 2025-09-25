@@ -2,7 +2,8 @@ package TaskClasses;
 public class User {
     private String name;
 
-    public User() {
+    //constructors
+    public User() { //default
         name = "";
     }
 
@@ -10,14 +11,16 @@ public class User {
         this.name = name;
     }
 
-    public User(User user) {
+    public User(User user) { //copy
         this.name = user.name;
     }
 
+    //setter
     public void setName(String name) {
         this.name = name;
     }
 
+    //getter
     public String getName() {
         return name;
     }

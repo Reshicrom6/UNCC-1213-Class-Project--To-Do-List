@@ -1,13 +1,15 @@
 import java.util.*;
 
 import TaskClasses.*;
+
 public class ToDoList {
 
+    //fields
     private String name;
     private List<Task> tasks;
 
-
-    public ToDoList() {
+    //constructors
+    public ToDoList() { //default
         this.name = "To-Do List";
         this.tasks = new ArrayList<>();
     }
@@ -17,14 +19,15 @@ public class ToDoList {
         this.tasks = new ArrayList<>();
     }
 
-    public ToDoList(ToDoList list) {
+    public ToDoList(ToDoList list) { //copy
         this.name = list.name;
         this.tasks = new ArrayList<>();
         for (Task task : list.tasks) {
-            this.tasks.add(new Task(task)); // deep copy
+            this.tasks.add(new Task(task));
         }
     }
 
+    //setters
     public void setName(String name) {
         this.name = name;
     }
@@ -32,10 +35,11 @@ public class ToDoList {
     public void setTasks(List<Task> tasks) {
         this.tasks = new ArrayList<>();
         for (Task task : tasks) {
-            this.tasks.add(new Task(task)); // deep copy
+            this.tasks.add(new Task(task));
         }
     }
 
+    //getters
     public List<Task> getTasks() {
         return tasks;
     }
@@ -44,14 +48,17 @@ public class ToDoList {
         return name;
     }
 
+    //adds a task to list
     public void addTask(Task task) {
         tasks.add(task);
     }
-
-    public void removeTask(Task task){
+    
+    //removes a task from list
+    public void removeTask(Task task) {
         tasks.remove(task);
     }
 
+    //toString method
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("To-Do List: ").append(name).append("\n");

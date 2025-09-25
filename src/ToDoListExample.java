@@ -12,7 +12,7 @@ public class ToDoListExample {
         deadLine deadline = new deadLine(dueDate, dueTime);
 
         // Create a category
-        Category category = new Category(TaskCategory.SCHOOL);
+        Category category = new Category(TaskCategory.OTHER);
 
         // Create a task
         Task task = new Task("Finish Java Project", category, deadline);

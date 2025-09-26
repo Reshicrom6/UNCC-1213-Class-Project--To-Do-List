@@ -11,24 +11,24 @@ package TaskClasses;
 import DateClasses.Date;
 import TimeClasses.*;
 
-public class deadLine {
+public class DeadLine {
     private Time time;
     private Date date;
 
     // Default constructor
-    public deadLine() {
+    public DeadLine() {
         this.date = new Date();
         this.time = new Time();
     }
 
     // Parameterized constructor
-    public deadLine(Date date, Time time) {
+    public DeadLine(Date date, Time time) {
         this.date = new Date(date); // copy constructor
         this.time = new Time(time); // copy constructor
     }
 
     // Copy constructor
-    public deadLine(deadLine other) {
+    public DeadLine(DeadLine other) {
         this.date = new Date(other.date);
         this.time = new Time(other.time);
     }

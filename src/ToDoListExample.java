@@ -9,7 +9,7 @@ public class ToDoListExample {
         // Create a deadline (e.g., Sep 30, 2025, 2:30 PM)
         Date dueDate = new Date(30, Month.SEPTEMBER, 2025);
         Time dueTime = new Time(2, 30, ClockType.TWELVE_HOUR, HourPeriod.PM);
-        deadLine deadline = new deadLine(dueDate, dueTime);
+        DeadLine deadline = new DeadLine(dueDate, dueTime);
 
         // Create a category
         Category category = new Category(TaskCategory.OTHER);

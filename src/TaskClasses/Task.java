@@ -8,27 +8,28 @@ public class Task {
     private String name;
     private Category category;
     private boolean isComplete = false;
-    private deadLine deadline;
+    private DeadLine deadline;
+    private String description = "No description";
 
     //constructors
-    public Task() {
+    public Task() { //default
         this.name = "";
         this.category = new Category();
-        this.deadline = new deadLine();
+        this.deadline = new DeadLine();
         this.users = new ArrayList<>();
     }
 
-    public Task(String name, Category category, deadLine deadline) {
+    public Task(String name, Category category, DeadLine deadline) { //parameterized
         this.name = name;
-        this.category = new Category(category); // copy constructor
-        this.deadline = new deadLine(deadline); // copy constructor
+        this.category = new Category(category); 
+        this.deadline = new DeadLine(deadline); 
         this.users = new ArrayList<>();
     }
 
-    public Task(Task task) {
+    public Task(Task task) { //copy
         this.name = task.name;
         this.category = new Category(task.category);
-        this.deadline = new deadLine(task.deadline);
+        this.deadline = new DeadLine(task.deadline);
         this.isComplete = task.isComplete;
         this.users = new ArrayList<>();
         for (User user : task.users) {
@@ -41,12 +42,16 @@ public class Task {
         this.name = name;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public void setCategory(Category category) {
         this.category = new Category(category);
     }
 
-    public void setDeadline(deadLine deadline) {
-        this.deadline = new deadLine(deadline);
+    public void setDeadline(DeadLine deadline) {
+        this.deadline = new DeadLine(deadline);
     }
 
     public void setComplete() {
@@ -62,11 +67,14 @@ public class Task {
         return name;
     }
 
+    public String getDestription() {
+        return description;
+    }
     public Category getCategory() {
         return category;
     }
 
-    public deadLine getDeadline() {
+    public DeadLine getDeadline() {
         return deadline;
     }
 
@@ -95,6 +103,7 @@ public class Task {
         sb.append("Task: ").append(name).append("\n");
         sb.append(category).append("\n");
         sb.append("Deadline: ").append(deadline).append("\n");
+        sb.append("Description: ").append(description).append("\n");
         sb.append("Status: ").append(isComplete ? "Complete" : "Incomplete").append("\n");
         if (users != null && !users.isEmpty()) {
             sb.append("Users: ");

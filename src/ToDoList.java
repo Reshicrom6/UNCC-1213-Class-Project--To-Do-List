@@ -99,7 +99,7 @@ public class ToDoList {
     }
 
     //task filtering method
-    public List<Task> filterTasks(String name, Category category, Date date, Time time, DeadLine deadline, Boolean complete) {
+    public List<Task> filterTasks(String name, Category category, Date date, Time time, DeadLine deadline,  List<User> users, Boolean complete) {
         List<Task> result = new ArrayList<>();
 
         //Determine which filters are active
@@ -109,6 +109,7 @@ public class ToDoList {
         boolean filterByTime = time != null;
         boolean filterByDeadline = deadline != null;
         boolean filterByComplete = complete != null;
+        boolean filterByUsers = users != null;
 
         //iterate through all tasks
         for (Task task : tasks) {
@@ -142,6 +143,13 @@ public class ToDoList {
                 matches = false;
             }
 
+            if (filterByUsers) {
+                for (User user : users) {
+                    if (!task.getUsers().contains(user)) {
+                        matches = false;
+                    }
+                }
+            }
             //if at the end of the loop iteration matches is still true, add the task to the result list
             if (matches) {
                 result.add(task);
@@ -155,31 +163,35 @@ public class ToDoList {
      * shot this project through ChatGPT to ask it for more ideas for functionality, it shoved these into my face. I don't know what purpose they serve though.
     */
     public List<Task> getCompletedTasks() {
-        return filterTasks(null, null, null, null, null, true);
+        return filterTasks(null, null, null, null, null, null, true);
     }
 
     public List<Task> getIncompleteTasks() {
-        return filterTasks(null, null, null, null, null, false);
+        return filterTasks(null, null, null, null, null, null, false);
     }
 
     public List<Task> getTaskByCategory(Category category) {
-        return filterTasks(null, category, null, null, null, null);
+        return filterTasks(null, category, null, null, null, null, null);
     }
 
     public List<Task> getTaskByDate(Date date) {
-        return filterTasks(null, null, date, null, null, null);
+        return filterTasks(null, null, date, null, null, null, null);
     }
 
     public List<Task> getTaskByTime(Time time) {
-        return filterTasks(null, null, null, time, null, null);
+        return filterTasks(null, null, null, time, null, null, null);
     }
 
     public List<Task> getTaskByDeadLine(DeadLine deadLine) {
-        return filterTasks(null, null, null, null, deadLine, null);
+        return filterTasks(null, null, null, null, deadLine, null, null);
     }
 
     public List<Task> getTaskByName(String name) {
-        return filterTasks(name, null, null, null, null, null);
+        return filterTasks(name, null, null, null, null, null, null);
+    }
+
+    public List<Task> getTaskByUsers(List<User> users) {
+        return filterTasks(null, null, null, null, null, users, null);
     }
 
     //toString method

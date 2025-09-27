@@ -102,45 +102,44 @@ public class ToDoList {
     public List<Task> filterTasks(String name, Category category, Date date, Time time, DeadLine deadline, Boolean complete) {
         List<Task> result = new ArrayList<>();
 
+        //Determine which filters are active
+        boolean filterByName = name != null && !name.isEmpty();
+        boolean filterByCategory = category != null;
+        boolean filterByDate = date != null;
+        boolean filterByTime = time != null;
+        boolean filterByDeadline = deadline != null;
+        boolean filterByComplete = complete != null;
+
         //iterate through all tasks
         for (Task task : tasks) {
             boolean matches = true;
-
-            if (name != null && !name.isEmpty()) { //checks if name is a filter
-                if (!task.getName().toLowerCase().contains(name.toLowerCase())) { //checks if passed name argument and current task match
-                    matches = false; //if current task and passed string do not match, matches = false
-                }
+            
+            if (filterByName && !task.getName().toLowerCase().contains(name.toLowerCase())) { //checks if passed name argument and current task match
+                matches = false; //if current task and passed string do not match, matches = false
             }
+            
             //repeat procress for all other arguments
 
-            if (category != null) {
-                if (!task.getCategory().equals(category)) {
-                    matches = false;
-                }
+            if (filterByCategory && !task.getCategory().equals(category)) {
+                matches = false;
             }
 
-            if (date != null) {
-                if (!task.getDate().equals(date)) {
-                    matches = false;
-                }
+
+            if (filterByDate && !task.getDate().equals(date)) {
+                matches = false;
             }
 
-            if (time != null) {
-                if (!task.getTime().equals(time)) {
-                    matches = false;
-                }
+
+            if (filterByTime && !task.getTime().equals(time)) {
+                matches = false;
             }
 
-            if (deadline != null) {
-                if (!task.getDeadline().equals(deadline)) {
-                    matches = false;
-                }
+            if (filterByDeadline && !task.getDeadline().equals(deadline)) {
+                matches = false;
             }
 
-            if (complete != null) {
-                if (task.completed() != complete) {
-                    matches = false;
-                }
+            if (filterByComplete && task.completed() != complete) {
+                matches = false;
             }
 
             //if at the end of the loop iteration matches is still true, add the task to the result list
@@ -165,6 +164,14 @@ public class ToDoList {
 
     public List<Task> getTaskByCategory(Category category) {
         return filterTasks(null, category, null, null, null, null);
+    }
+
+    public List<Task> getTaskByDate(Date date) {
+        return filterTasks(null, null, date, null, null, null);
+    }
+
+    public List<Task> getTaskByTime(Time time) {
+        return filterTasks(null, null, null, time, null, null);
     }
 
     public List<Task> getTaskByDeadLine(DeadLine deadLine) {

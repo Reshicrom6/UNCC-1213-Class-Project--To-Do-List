@@ -1,7 +1,8 @@
 import java.util.*;
 
 import TaskClasses.*;
-
+import DateClasses.Date;
+import TimeClasses.Time;
 public class ToDoList {
 
     //fields
@@ -98,7 +99,7 @@ public class ToDoList {
     }
 
     //task filtering method
-    public List<Task> filterTasks(String name, Category category, DeadLine deadline, Boolean complete) {
+    public List<Task> filterTasks(String name, Category category, Date date, Time time, DeadLine deadline, Boolean complete) {
         List<Task> result = new ArrayList<>();
 
         //iterate through all tasks
@@ -114,6 +115,18 @@ public class ToDoList {
 
             if (category != null) {
                 if (!task.getCategory().equals(category)) {
+                    matches = false;
+                }
+            }
+
+            if (date != null) {
+                if (!task.getDate().equals(date)) {
+                    matches = false;
+                }
+            }
+
+            if (time != null) {
+                if (!task.getTime().equals(time)) {
                     matches = false;
                 }
             }
@@ -143,23 +156,23 @@ public class ToDoList {
      * shot this project through ChatGPT to ask it for more ideas for functionality, it shoved these into my face. I don't know what purpose they serve though.
     */
     public List<Task> getCompletedTasks() {
-        return filterTasks(null, null, null, true);
+        return filterTasks(null, null, null, null, null, true);
     }
 
     public List<Task> getIncompleteTasks() {
-        return filterTasks(null, null, null, false);
+        return filterTasks(null, null, null, null, null, false);
     }
 
     public List<Task> getTaskByCategory(Category category) {
-        return filterTasks(null, category, null, null);
+        return filterTasks(null, category, null, null, null, null);
     }
 
     public List<Task> getTaskByDeadLine(DeadLine deadLine) {
-        return filterTasks(null, null, deadLine, null);
+        return filterTasks(null, null, null, null, deadLine, null);
     }
 
     public List<Task> getTaskByName(String name) {
-        return filterTasks(name, null, null, null);
+        return filterTasks(name, null, null, null, null, null);
     }
 
     //toString method

@@ -1,6 +1,7 @@
 package TaskClasses;
 import java.util.*;
-
+import DateClasses.Date;
+import TimeClasses.Time;
 public class Task {
 
     //fields
@@ -9,6 +10,8 @@ public class Task {
     private Category category;
     private boolean isComplete = false;
     private DeadLine deadline;
+    private Time time;
+    private Date date;
     private String description = "No description";
 
     //constructors
@@ -17,12 +20,16 @@ public class Task {
         this.category = new Category();
         this.deadline = new DeadLine();
         this.users = new ArrayList<>();
+        this.time = new Time();
+        this.date = new Date();
     }
 
-    public Task(String name, Category category, DeadLine deadline) { //parameterized
+    public Task(String name, Category category, DeadLine deadline, Time time, Date date) { //parameterized
         this.name = name;
         this.category = new Category(category); 
-        this.deadline = new DeadLine(deadline); 
+        this.deadline = new DeadLine(deadline);
+        this.time = new Time(time);
+        this.date = new Date(date);
         this.users = new ArrayList<>();
     }
 
@@ -30,6 +37,8 @@ public class Task {
         this.name = task.name;
         this.category = new Category(task.category);
         this.deadline = new DeadLine(task.deadline);
+        this.time = new Time(task.time);
+        this.date = new Date(task.date);
         this.isComplete = task.isComplete;
         this.users = new ArrayList<>();
         for (User user : task.users) {
@@ -54,6 +63,14 @@ public class Task {
         this.deadline = new DeadLine(deadline);
     }
 
+    public void settime(Time time) {
+        this.time = new Time(time);
+    }
+
+    public void setDate(Date date) {
+        this.date = new Date(date);
+    }
+
     public void setComplete() {
         isComplete = true;
     }
@@ -70,12 +87,21 @@ public class Task {
     public String getDestription() {
         return description;
     }
+
     public Category getCategory() {
         return category;
     }
 
     public DeadLine getDeadline() {
         return deadline;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+    
+    public Time getTime() {
+        return time;
     }
 
     public boolean completed() {
@@ -102,6 +128,8 @@ public class Task {
         StringBuilder sb = new StringBuilder();
         sb.append("Task: ").append(name).append("\n");
         sb.append(category).append("\n");
+        sb.append("Date: ").append(date).append("\n");
+        sb.append("Time: ").append(time).append("\n");
         sb.append("Deadline: ").append(deadline).append("\n");
         sb.append("Description: ").append(description).append("\n");
         sb.append("Status: ").append(isComplete ? "Complete" : "Incomplete").append("\n");

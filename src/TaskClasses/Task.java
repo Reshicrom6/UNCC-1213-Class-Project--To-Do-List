@@ -9,25 +9,23 @@ public class Task {
     private String name;
     private Category category;
     private boolean isComplete = false;
-    private DeadLine deadline;
+    private DeadLine deadline = null;
     private Time time;
     private Date date;
-    private String description = "No description";
+    private String description = "";
 
     //constructors
     public Task() { //default
         this.name = "";
         this.category = new Category();
-        this.deadline = new DeadLine();
         this.users = new ArrayList<>();
         this.time = new Time();
         this.date = new Date();
     }
 
-    public Task(String name, Category category, DeadLine deadline, Time time, Date date) { //parameterized
+    public Task(String name, Category category, Time time, Date date) { //parameterized
         this.name = name;
         this.category = new Category(category); 
-        this.deadline = new DeadLine(deadline);
         this.time = new Time(time);
         this.date = new Date(date);
         this.users = new ArrayList<>();
@@ -130,8 +128,12 @@ public class Task {
         sb.append(category).append("\n");
         sb.append("Date: ").append(date).append("\n");
         sb.append("Time: ").append(time).append("\n");
-        sb.append("Deadline: ").append(deadline).append("\n");
-        sb.append("Description: ").append(description).append("\n");
+        if (deadline != null) {
+            sb.append("Deadline: ").append(deadline).append("\n");
+        }
+        if (description != null && !description.isEmpty()) {
+            sb.append("Description: ").append(description).append("\n");
+        }
         sb.append("Status: ").append(isComplete ? "Complete" : "Incomplete").append("\n");
         if (users != null && !users.isEmpty()) {
             sb.append("Users: ");

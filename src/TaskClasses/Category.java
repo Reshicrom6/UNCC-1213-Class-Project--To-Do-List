@@ -51,11 +51,10 @@ public class Category {
         this.customCategory = customCategory;
     }
 
-    public void promptForCustomCategory() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter custom category: ");
-        this.customCategory = scanner.nextLine();
-    }
+    // public void promptForCustomCategory() {
+    //     System.out.print("Enter custom category: ");
+
+    // }
 
     @Override
     public String toString() {

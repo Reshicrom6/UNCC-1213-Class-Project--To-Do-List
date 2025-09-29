@@ -1,10 +1,10 @@
 /**
- * TODO Write a one-sentence summary of your class here.
- * TODO Follow it with additional details about its purpose, what abstraction
- * it represents, and how to use it.
+ * Represents a deadline combining both date and time information for tasks.
+ * This class encapsulates a specific point in time when a task should be completed,
+ * providing a convenient way to handle deadline-related operations.
  *
- * @author  TODO Your Name
- * @version Sep 24, 2025
+ * @author  Jed Duncan
+ * @version Sep 29, 2025
  */
 package TaskClasses;
 
@@ -12,23 +12,22 @@ import DateClasses.Date;
 import TimeClasses.*;
 
 public class DeadLine {
-    private Time time;
-    private Date date;
+    //fields
+    private Time time; //the time component of the deadline
+    private Date date; //the date component of the deadline
 
-    // Default constructor
-    public DeadLine() {
+    //constructors
+    public DeadLine() { //default constructor - creates deadline with current default date and time
         this.date = new Date();
         this.time = new Time();
     }
 
-    // Parameterized constructor
-    public DeadLine(Date date, Time time) {
-        this.date = new Date(date); // copy constructor
-        this.time = new Time(time); // copy constructor
+    public DeadLine(Date date, Time time) { //parameterized constructor - creates deadline with specified date and time
+        this.date = new Date(date); //create defensive copy
+        this.time = new Time(time); //create defensive copy
     }
 
-    // Copy constructor
-    public DeadLine(DeadLine other) {
+    public DeadLine(DeadLine other) { //copy constructor - creates deep copy of another deadline
         this.date = new Date(other.date);
         this.time = new Time(other.time);
     }
@@ -51,6 +50,7 @@ public class DeadLine {
         this.time = new Time(time);
     }
 
+    //toString method
     @Override
     public String toString() {
         return date.toString() + " " + time.toString();

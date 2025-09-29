@@ -1,38 +1,39 @@
 /**
- * TODO Write a one-sentence summary of your class here.
- * TODO Follow it with additional details about its purpose, what abstraction
- * it represents, and how to use it.
+ * Represents a task category with support for predefined types and custom categories.
+ * This class encapsulates both standard categories (from TaskCategory enum) and
+ * user-defined custom categories when the type is set to OTHER.
  *
- * @author  TODO Your Name
- * @version Sep 23, 2025
+ * @author  Jed Duncan
+ * @version Sep 29, 2025
  */
 package TaskClasses;
 
 public class Category {
     //fields
-    private TaskCategory categoryType;
-    private String customCategory = "";
+    private TaskCategory categoryType; //the predefined category type from TaskCategory enum
+    private String customCategory = ""; //stores custom category name when categoryType is OTHER
 
     //constructors
-    public Category() { //default
+    public Category() { //default constructor - sets category to EVENT
         this.categoryType = TaskCategory.EVENT;
     }
 
-    public Category(TaskCategory categoryType) { //parameterized
+    public Category(TaskCategory categoryType) { //parameterized constructor for standard categories
         this.categoryType = categoryType;
-        
+        //custom category will be set separately if needed
     }
     
-    public Category(TaskCategory categoryType, String customCategory) { //parameterized. used when categoryType is set to TaskCategory.OTHER
+    public Category(TaskCategory categoryType, String customCategory) { //parameterized constructor with custom text - used when categoryType is OTHER
         this.categoryType = categoryType;
         this.customCategory = (categoryType == TaskCategory.OTHER) ? customCategory : ""; //when category type is set to other, customCategory is set to the passed String or set to empty
     }
 
-    public Category(Category other) { //copy
+    public Category(Category other) { //copy constructor - creates deep copy of another Category
         this.categoryType = other.categoryType;
         this.customCategory = other.customCategory;
     }
 
+    //setters
     public void setCategoryType(TaskCategory categoryType) {
         this.categoryType = categoryType;
         if (categoryType != TaskCategory.OTHER) {
@@ -40,6 +41,11 @@ public class Category {
         }
     }
 
+    public void setCustomCategory(String customCategory) {
+        this.customCategory = customCategory;
+    }
+
+    //getters
     public TaskCategory getCategoryType() {
         return categoryType;
     }
@@ -48,9 +54,7 @@ public class Category {
         return customCategory;
     }
 
-    public void setCustomCategory(String customCategory) {
-        this.customCategory = customCategory;
-    }
+    
 
     // Helper method to create a category with custom text
     public static Category createCustomCategory(String customText) {
@@ -58,6 +62,7 @@ public class Category {
         return cat;
     }
 
+    //toString method
     @Override
     public String toString() {
         if (categoryType == TaskCategory.OTHER && customCategory != null && !customCategory.isEmpty()) {

@@ -1,44 +1,52 @@
+/**
+ * Example program demonstrating the usage of the ToDoList system.
+ * This class shows how to create tasks with different categories, dates, times,
+ * and demonstrates basic operations like adding tasks and displaying the list.
+ *
+ * @author  Jed Duncan
+ * @version Sep 29, 2025
+ */
 import TaskClasses.*;
 import DateClasses.*;
 import TimeClasses.*;
 
-import java.util.List;
-
 public class ToDoListExample {
     public static void main(String[] args) {
-
+        //create a new to-do list with a custom name
         ToDoList myList = new ToDoList("My Example List");
 
-        // Categories
+        //create different categories for task organization
         Category schoolCategory = new Category(TaskCategory.SCHOOL);
         Category workCategory   = new Category(TaskCategory.WORK);
         Category otherCategory  = new Category(TaskCategory.OTHER);
 
-        // Event (occurrence) date/time for a presentation
+        //create dates and times for various tasks
+        //presentation task - event date/time for October 2nd at 10:15 AM
         Date eventDate = new Date(2, Month.OCTOBER, 2025);
         Time eventTime = new Time(10, 15, ClockType.TWELVE_HOUR, HourPeriod.AM);
 
-        // Another task (meeting) with same occurrence and due at start time
+        //meeting task - scheduled for October 5th at 9:00 AM
         Date meetingDate = new Date(5, Month.OCTOBER, 2025);
         Time meetingTime = new Time(9, 0, ClockType.TWELVE_HOUR, HourPeriod.AM);
 
-        // Third task (call) occurs later; soft deadline earlier same day
+        //advisor call - scheduled for October 12th at 11:15 AM
         Date callDate = new Date(12, Month.OCTOBER, 2025);
         Time callTime = new Time(11, 15, ClockType.TWELVE_HOUR, HourPeriod.AM);
 
-        // Create tasks (name, category, deadline (due by), occurrence time, occurrence date)
+        //create tasks with name, category, time, and date
         Task prepTask    = new Task("Prepare Presentation", schoolCategory, eventTime, eventDate);
         Task meetingTask = new Task("Team Status Meeting", workCategory, meetingTime, meetingDate);
         Task callTask    = new Task("Advisor Call", otherCategory, callTime, callDate);
 
+        //add all tasks to the to-do list
         myList.addTask(prepTask);
         myList.addTask(meetingTask);
         myList.addTask(callTask);
 
-        // Basic display (assumes Task.toString distinguishes deadline vs occurrence)
+        //display all tasks in the list
         System.out.println("All tasks:");
         for (Task t : myList.getTasks()) {
-            System.out.println(t);
+            System.out.println(t); //uses each task's toString() method for formatting
         }
     }
 }

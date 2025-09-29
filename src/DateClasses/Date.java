@@ -1,57 +1,55 @@
 /**
- * TODO Write a one-sentence summary of your class here.
- * TODO Follow it with additional details about its purpose, what abstraction
- * it represents, and how to use it.
+ * Represents the date of a task in the task class
+ * Saves the day and year represented as integers, and the month as an enum for type safety
  *
- * @author  TODO Your Name
- * @version Sep 24, 2025
+ * @author  Jed Duncan
+ * @version Sep 29, 2025
  */
 package DateClasses;
 public class Date {
-    private int day;
-    private int year;
-    private Month month;
+    //fields
+    private int day;   //day of the month (1-31)
+    private int year;  //year (full 4-digit year)
+    private Month month; //month using Month enum for type safety
 
-    // Default constructor
-    public Date() {
+    //constructors
+    public Date() { //default constructor - creates date set to January 1, 2025
         this.day = 1;
         this.month = Month.JANUARY;
         this.year = 2025;
     }
 
-    // Parameterized constructor
-    public Date(int day, Month month, int year) {
+    public Date(int day, Month month, int year) { //parameterized constructor - creates date with validation
         this.year = year;
         this.month = month;
-        setDay(day); // validates day for month/year
+        setDay(day); //validates day for the given month/year combination
     }
 
-    // Copy constructor
-    public Date(Date other) {
+    public Date(Date other) { //copy constructor - creates deep copy of another date
         this.day = other.day;
         this.month = other.month;
         this.year = other.year;
     }
 
-    // Getters
-    public int getDay() {
+    //getters
+    public int getDay() { //returns the day of the month
         return day;
     }
 
-    public Month getMonth() {
+    public Month getMonth() { //returns the month as Month enum
         return month;
     }
 
-    public int getYear() {
+    public int getYear() { //returns the year
         return year;
     }
 
-    // Setters
-    public void setDay(int day) {
+    //setters
+    public void setDay(int day) { //sets the day with validation for the current month/year
         int maxDay;
         switch (month) {
             case FEBRUARY:
-                maxDay = isLeapYear(year) ? 29 : 28;
+                maxDay = isLeapYear(year) ? 29 : 28; //when isLeapYear(year) is true, maxDay = 29, when false, maxDay = 28
                 break;
             case APRIL: case JUNE: case SEPTEMBER: case NOVEMBER:
                 maxDay = 30;
@@ -66,23 +64,24 @@ public class Date {
 
         }
 
-        // Helper method to check leap year
+        //helper method to check if a year is a leap year
         private boolean isLeapYear(int year) {
             return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
     }
 
-    public void setMonth(Month month) {
+    public void setMonth(Month month) { //sets the month and re-validates the day
         if (month == null) {
             throw new IllegalArgumentException("Month cannot be null");
         }
         this.month = month;
-        // Optionally, re-validate the day in case month changes
-        setDay(this.day);
+        setDay(this.day); //re-validate day in case month changes (e.g., Jan 31 -> Feb)
     }
 
-    public void setYear(int year) {
+    public void setYear(int year) { //sets the year
         this.year = year;
     }
+    
+    //toString method - returns date in YYYY-MM-DD format
     @Override
     public String toString() {
         return String.format("%04d-%02d-%02d", year, month.ordinal() + 1, day);

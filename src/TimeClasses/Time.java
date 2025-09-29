@@ -1,82 +1,78 @@
 /**
- * TODO Write a one-sentence summary of your class here.
- * TODO Follow it with additional details about its purpose, what abstraction
- * it represents, and how to use it.
+ * Represents a time of day with support for both 12-hour and 24-hour formats.
+ * This class handles time validation, format conversion, and provides flexible
+ * time representation with AM/PM support for 12-hour format.
  *
- * @author  TODO Your Name
- * @version Sep 23, 2025
+ * @author  Jed Duncan
+ * @version Sep 29, 2025
  */
 package TimeClasses;
 public class Time {
+    //fields
+    private int hour;              //hour component (0-23 for 24-hour, 1-12 for 12-hour)
+    private int minute;            //minute component (0-59)
+    private ClockType clockType;   //determines 12-hour or 24-hour format
+    private HourPeriod hourPeriod; //AM/PM indicator (only used for 12-hour format)
 
-    private int hour;
-    private int minute;
-    private ClockType clockType; 
-    private HourPeriod hourPeriod; 
-
-    
-    public Time() {
+    //constructors
+    public Time() { //default constructor - creates time as 00:00 in 24-hour format
         this.hour = 0;
         this.minute = 0;
         this.clockType = ClockType.TWENTY_FOUR_HOUR;
         this.hourPeriod = null;
     }
 
-    
-    public Time(int hour, int minute) {
+    public Time(int hour, int minute) { //parameterized constructor for 24-hour format
         this.clockType = ClockType.TWENTY_FOUR_HOUR;
-        setHour(hour);
-        setMinute(minute);
+        setHour(hour); //validate hour for 24-hour format
+        setMinute(minute); //validate minute
         this.hourPeriod = null;
     }
 
-    // 12-hour constructor
-    public Time(int hour, int minute, HourPeriod hourPeriod) {
+    public Time(int hour, int minute, HourPeriod hourPeriod) { //constructor for 12-hour format with AM/PM
         this.clockType = ClockType.TWELVE_HOUR;
-        setHour(hour);
-        setMinute(minute);
+        setHour(hour); //validate hour for 12-hour format
+        setMinute(minute); //validate minute
         setHourPeriod(hourPeriod);
     }
 
-    // Full constructor
-    public Time(int hour, int minute, ClockType clockType, HourPeriod hourPeriod) {
+    public Time(int hour, int minute, ClockType clockType, HourPeriod hourPeriod) { //full constructor with all parameters
         this.clockType = clockType;
-        setHour(hour);
-        setMinute(minute);
+        setHour(hour); //validate hour based on clock type
+        setMinute(minute); //validate minute
         if (clockType == ClockType.TWELVE_HOUR) {
-            setHourPeriod(hourPeriod);
+            setHourPeriod(hourPeriod); //set AM/PM for 12-hour format
         } else {
-            this.hourPeriod = null;
+            this.hourPeriod = null; //no AM/PM for 24-hour format
         }
     }
 
-    // Copy constructor
-    public Time(Time other) {
+    public Time(Time other) { //copy constructor - creates deep copy of another time
         this.hour = other.hour;
         this.minute = other.minute;
         this.clockType = other.clockType;
         this.hourPeriod = other.hourPeriod;
     }
 
-    // Getters
-    public int getHour() {
+    //getters
+    public int getHour() { //returns the hour component
         return hour;
     }
 
-    public int getMinute() {
+    public int getMinute() { //returns the minute component
         return minute;
     }
 
-    public ClockType getClockType() {
+    public ClockType getClockType() { //returns the clock format type (12 or 24 hour)
         return clockType;
     }
 
-    public HourPeriod getHourPeriod() {
+    public HourPeriod getHourPeriod() { //returns AM/PM indicator (null for 24-hour format)
         return hourPeriod;
     }
 
-    // Setters
-    public void setHour(int hour) {
+    //setters
+    public void setHour(int hour) { //sets the hour with validation based on clock type
         if (clockType == ClockType.TWELVE_HOUR) {
             if (hour < 1 || hour > 12) {
                 throw new IllegalArgumentException("Hour must be 1-12 for 12-hour clock");
@@ -89,22 +85,22 @@ public class Time {
         this.hour = hour;
     }
 
-    public void setMinute(int minute) {
+    public void setMinute(int minute) { //sets the minute with validation
         if (minute < 0 || minute > 59) {
             throw new IllegalArgumentException("Minute must be 0-59");
         }
         this.minute = minute;
     }
 
-    public void setClockType(ClockType clockType) {
+    public void setClockType(ClockType clockType) { //sets the clock format type
         this.clockType = clockType;
-        // Reset hourPeriod if switching to 24-hour
+        //reset hourPeriod if switching to 24-hour format
         if (clockType == ClockType.TWENTY_FOUR_HOUR) {
             this.hourPeriod = null;
         }
     }
 
-    public void setHourPeriod(HourPeriod hourPeriod) {
+    public void setHourPeriod(HourPeriod hourPeriod) { //sets AM/PM indicator (only for 12-hour format)
         if (clockType != ClockType.TWELVE_HOUR) {
             throw new IllegalStateException("HourPeriod only applies to 12-hour clock");
         }
@@ -114,12 +110,13 @@ public class Time {
         this.hourPeriod = hourPeriod;
     }
 
+    //toString method - returns formatted time string based on clock type
     @Override
     public String toString() {
         if (clockType == ClockType.TWELVE_HOUR) {
-            return String.format("%02d:%02d %s", hour, minute, hourPeriod);
+            return String.format("%02d:%02d %s", hour, minute, hourPeriod); //12-hour format with AM/PM
         } else {
-            return String.format("%02d:%02d", hour, minute);
+            return String.format("%02d:%02d", hour, minute); //24-hour format
         }
     }
 }

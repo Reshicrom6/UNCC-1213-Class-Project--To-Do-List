@@ -8,34 +8,35 @@
  */
 package TaskClasses;
 
-import java.util.Scanner;
-
 public class Category {
+    //fields
     private TaskCategory categoryType;
     private String customCategory = "";
 
-    public Category() {
+    //constructors
+    public Category() { //default
         this.categoryType = TaskCategory.EVENT;
     }
 
-    public Category(TaskCategory categoryType) {
+    public Category(TaskCategory categoryType) { //parameterized
         this.categoryType = categoryType;
-        if (categoryType == TaskCategory.OTHER) {
-            promptForCustomCategory();
-        }
+        
+    }
+    
+    public Category(TaskCategory categoryType, String customCategory) { //parameterized. used when categoryType is set to TaskCategory.OTHER
+        this.categoryType = categoryType;
+        this.customCategory = (categoryType == TaskCategory.OTHER) ? customCategory : ""; //when category type is set to other, customCategory is set to the passed String or set to empty
     }
 
-    public Category(Category other) {
+    public Category(Category other) { //copy
         this.categoryType = other.categoryType;
         this.customCategory = other.customCategory;
     }
 
     public void setCategoryType(TaskCategory categoryType) {
         this.categoryType = categoryType;
-        if (categoryType == TaskCategory.OTHER) {
-            promptForCustomCategory();
-        } else {
-            this.customCategory = "";
+        if (categoryType != TaskCategory.OTHER) {
+            this.customCategory = ""; // Clear custom category if not OTHER
         }
     }
 
@@ -51,10 +52,11 @@ public class Category {
         this.customCategory = customCategory;
     }
 
-    // public void promptForCustomCategory() {
-    //     System.out.print("Enter custom category: ");
-
-    // }
+    // Helper method to create a category with custom text
+    public static Category createCustomCategory(String customText) {
+        Category cat = new Category(TaskCategory.OTHER, customText);
+        return cat;
+    }
 
     @Override
     public String toString() {

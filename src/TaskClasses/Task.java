@@ -82,7 +82,7 @@ public class Task {
         return name;
     }
 
-    public String getDestription() {
+    public String getDescription() {
         return description;
     }
 

@@ -21,9 +21,11 @@ public class Task {
     private Time time; //time associated with the task
     private Date date; //date associated with the task
     private String description = ""; //detailed description of the task
+    private int taskId; //database primary key
 
     //constructors
     public Task() { //default constructor - creates empty task with default values
+        this.taskId = -1;
         this.name = "";
         this.category = new Category();
         this.users = new ArrayList<>();
@@ -32,6 +34,7 @@ public class Task {
     }
 
     public Task(String name, Category category, Time time, Date date) { //parameterized constructor - creates task with specified basic properties
+        this.taskId = -1;
         this.name = name;
         this.category = new Category(category); //create copy to ensure encapsulation
         this.time = new Time(time); //create copy to ensure encapsulation
@@ -40,6 +43,7 @@ public class Task {
     }
 
     public Task(Task task) { //copy constructor - creates deep copy of another task
+        this.taskId = -1;
         this.name = task.name;
         this.category = new Category(task.category);
         this.deadline = new DeadLine(task.deadline);
@@ -85,6 +89,10 @@ public class Task {
         this.users = users;
     }
 
+    public void setTaskId(int taskId) { //sets task id field
+        this.taskId = taskId;
+    }
+
     //getters
     public String getName() { //returns the task name
         return name;
@@ -116,6 +124,14 @@ public class Task {
 
     public List<User> getUsers() { //returns the list of assigned users
         return users;
+    }
+
+    public int getTaskId() { //returns taskId field
+        return taskId;
+    }
+    
+    public boolean isSavedToDatabase() {
+        return taskId > 0;
     }
 
     //user management methods

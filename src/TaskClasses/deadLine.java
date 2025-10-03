@@ -51,8 +51,37 @@ public class DeadLine {
     }
 
     //toString method
-    @Override
     public String toString() {
         return date.toString() + " " + time.toString();
     }
+    
+    public static DeadLine parse(String text) {
+        if (text == null || text.trim().isEmpty()) {
+            throw new IllegalArgumentException("Input text cannot be null or empty");
+        }
+
+        text = text.trim();
+        
+        // Find the first space to separate date from time
+        int spaceIndex = text.indexOf(' ');
+        if (spaceIndex == -1) {
+            throw new IllegalArgumentException("Input text must contain a date and time separated by space");
+        }
+
+        try {
+            // Parse date part (everything before first space)
+            String datePart = text.substring(0, spaceIndex);
+            Date date = Date.parse(datePart);
+            
+            // Parse time part (everything after first space - handles "HH:MM" or "HH:MM AM/PM")
+            String timePart = text.substring(spaceIndex + 1);
+            Time time = Time.parse(timePart);
+            
+            return new DeadLine(date, time);
+            
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Failed to parse deadline: " + e.getMessage(), e);
+        }
+    }
+    
 }

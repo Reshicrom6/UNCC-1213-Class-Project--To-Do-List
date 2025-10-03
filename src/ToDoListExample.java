@@ -39,14 +39,21 @@ public class ToDoListExample {
         Task callTask    = new Task("Advisor Call", otherCategory, callTime, callDate);
 
         //add all tasks to the to-do list
-        myList.addTask(prepTask);
-        myList.addTask(meetingTask);
-        myList.addTask(callTask);
+        // myList.addTask(prepTask);
+        // myList.addTask(meetingTask);
+        // myList.addTask(callTask);
 
-        //display all tasks in the list
-        System.out.println("All tasks:");
-        for (Task t : myList.getTasks()) {
-            System.out.println(t); //uses each task's toString() method for formatting
-        }
-    }
+        // //display all tasks in the list
+        // System.out.println("All tasks:");
+        // for (Task t : myList.getTasks()) {
+        //     System.out.println(t); //uses each task's toString() method for formatting
+        // }
+        
+        String taskParseExample = prepTask.toString();
+        System.out.println("Task to Parse:");
+        System.out.println(taskParseExample);
+        Task parsedTask = Task.parse(taskParseExample);
+        System.out.println("Parsed Task:");
+        System.out.println(parsedTask);
+    }   
 }

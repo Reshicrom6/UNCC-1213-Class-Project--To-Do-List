@@ -111,12 +111,58 @@ public class Time {
     }
 
     //toString method - returns formatted time string based on clock type
-    @Override
     public String toString() {
         if (clockType == ClockType.TWELVE_HOUR) {
             return String.format("%02d:%02d %s", hour, minute, hourPeriod); //12-hour format with AM/PM
         } else {
             return String.format("%02d:%02d", hour, minute); //24-hour format
+        }
+    }
+
+    public static Time parse(String text) {
+        if (text == null || text.trim().isEmpty()) {
+            throw new IllegalArgumentException("Text cannot be null or empty");
+        }
+
+        text = text.trim();
+        
+        //Format for 12 hour clock HH:MM AM|PM
+        if (text.matches("\\d{2}:\\d{2} (AM|PM)")) {
+            String[] mainParts = text.split(" ");
+            String[] timeParts = mainParts[0].split(":");
+            String periodString = mainParts[1]; // Fixed: was mainParts[0]
+
+            int hours = Integer.parseInt(timeParts[0]);
+            int minutes = Integer.parseInt(timeParts[1]);
+            
+
+            if (hours < 1 || hours > 12) { // Fixed: changed from < 0 to < 1 for 12-hour format
+                throw new IllegalArgumentException("Hours out of range for 12-hour format: " + hours);
+            }
+            if (minutes < 0 || minutes > 59) {
+                throw new IllegalArgumentException("Minutes out of range: " + minutes);
+            }
+            HourPeriod hourPeriod = periodString.equals("AM") ? HourPeriod.AM : HourPeriod.PM;
+            return new Time(hours, minutes, hourPeriod);
+        }
+        //Format for 24 hour clock HH:MM
+        else if (text.matches("\\d{2}:\\d{2}")) {
+            String[] parts = text.split(":");
+
+            int hours = Integer.parseInt(parts[0]);
+            int minutes = Integer.parseInt(parts[1]);
+
+            if (hours < 0 || hours > 23) {
+                throw new IllegalArgumentException("Hours out of range: " + hours);
+            }
+            if (minutes < 0 || minutes > 59) {
+                throw new IllegalArgumentException("Minute out of range: " + minutes);
+            }
+            return new Time(hours, minutes);
+        }
+        // If neither pattern matches
+        else {
+            throw new IllegalArgumentException("Invalid time format. Expected HH:MM or HH:MM AM/PM: " + text);
         }
     }
 }

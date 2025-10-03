@@ -63,12 +63,36 @@ public class Category {
     }
 
     //toString method
-    @Override
     public String toString() {
         if (categoryType == TaskCategory.OTHER && customCategory != null && !customCategory.isEmpty()) {
             return "Category: " + customCategory + " (Other)";
         } else {
             return "Category: " + categoryType;
+        }
+    }
+
+    public static Category parse(String text) {
+        if (text == null || text.trim().isEmpty()) {
+            throw new IllegalArgumentException("Text cannot be null or empty");
+        } 
+        text = text.trim();
+
+        if (!text.startsWith("Category: ")) {
+            throw new IllegalArgumentException("Invalid category format. Expected 'Category: ...'");
+        }
+
+        String categoryPart = text.substring(10);
+
+        if (categoryPart.endsWith(" (Other)")) {
+            String customText = categoryPart.substring(0, categoryPart.length() - 8); // Remove " (Other)"
+            return new Category(TaskCategory.OTHER, customText);
+        }
+
+        try {
+            TaskCategory category = TaskCategory.valueOf(categoryPart);
+            return new Category(category);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Unknown category type: " + categoryPart);
         }
     }
 }

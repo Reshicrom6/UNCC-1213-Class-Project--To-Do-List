@@ -206,7 +206,6 @@ public class ToDoList {
     }
 
     //toString method - returns formatted string representation of the entire to-do list
-    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("To-Do List: ").append(name).append("\n");

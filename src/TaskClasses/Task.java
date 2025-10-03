@@ -22,6 +22,7 @@ public class Task {
     private Date date; //date associated with the task
     private String description = ""; //detailed description of the task
     private int taskId; //database primary key
+    private static int numberOfTasks = 0; //static counter to track number of Task instances
 
     //constructors
     public Task() { //default constructor - creates empty task with default values
@@ -31,6 +32,7 @@ public class Task {
         this.users = new ArrayList<>();
         this.time = new Time();
         this.date = new Date();
+        numberOfTasks++;
     }
 
     public Task(String name, Category category, Time time, Date date) { //parameterized constructor - creates task with specified basic properties
@@ -40,6 +42,7 @@ public class Task {
         this.time = new Time(time); //create copy to ensure encapsulation
         this.date = new Date(date); //create copy to ensure encapsulation
         this.users = new ArrayList<>();
+        numberOfTasks++;
     }
 
     public Task(Task task) { //copy constructor - creates deep copy of another task
@@ -54,6 +57,7 @@ public class Task {
         for (User user : task.users) { //deep copy all users
             this.users.add(new User(user));
         }
+        numberOfTasks++;
     }
 
     //setters
@@ -129,6 +133,10 @@ public class Task {
     public int getTaskId() { //returns taskId field
         return taskId;
     }
+
+    public static int getNumberOfTasks() {
+        return numberOfTasks;
+    }
     
     public boolean isSavedToDatabase() {
         return taskId > 0;
@@ -144,7 +152,6 @@ public class Task {
     }
 
     //toString method - returns formatted string representation of the complete task
-    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Task: ").append(name).append("\n");
@@ -167,5 +174,73 @@ public class Task {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    public static Task parse(String text) {
+        if (text == null || text.trim().isEmpty()) {
+            throw new IllegalArgumentException("Text cannot be null or empty");
+        }
+
+        text = text.trim();
+        String[] lines = text.split("\n");
+        
+        if (lines.length < 4) {
+            throw new IllegalArgumentException("Invalid task format - missing required fields");
+        }
+
+        try {
+            // Parse Task name
+            if (!lines[0].startsWith("Task: ")) {
+                throw new IllegalArgumentException("Invalid task name format");
+            }
+            String name = lines[0].substring(6);
+
+            // Parse Category
+            Category category = Category.parse(lines[1]);
+
+            // Parse Date
+            if (!lines[2].startsWith("Date: ")) {
+                throw new IllegalArgumentException("Invalid date format");
+            }
+            Date date = Date.parse(lines[2].substring(6));
+
+            // Parse Time
+            if (!lines[3].startsWith("Time: ")) {
+                throw new IllegalArgumentException("Invalid time format");
+            }
+            Time time = Time.parse(lines[3].substring(6));
+
+            // Create task with basic info
+            Task task = new Task(name, category, time, date);
+
+            // Parse optional fields
+            for (int i = 4; i < lines.length; i++) {
+                String line = lines[i];
+                
+                if (line.startsWith("Deadline: ")) {
+                    task.setDeadline(DeadLine.parse(line.substring(10)));
+                } else if (line.startsWith("Description: ")) {
+                    task.setDescription(line.substring(13));
+                } else if (line.startsWith("Status: ")) {
+                    String status = line.substring(8);
+                    if ("Complete".equals(status)) {
+                        task.setComplete();
+                    }
+                } else if (line.startsWith("Users: ")) {
+                    String usersStr = line.substring(7);
+                    String[] userStrings = usersStr.split(", ");
+                    List<User> users = new ArrayList<>();
+                    for (String userStr : userStrings) {
+                        users.add(User.parse(userStr.trim()));
+                    }
+                    task.setUsers(users);
+                }
+            }
+
+            return task;
+
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Failed to parse task: " + e.getMessage(), e);
+        }
     }
 }

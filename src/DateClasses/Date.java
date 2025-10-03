@@ -81,9 +81,43 @@ public class Date {
         this.year = year;
     }
     
-    //toString method - returns date in YYYY-MM-DD format
-    @Override
+    //toString method - returns date in DD-MM-YYYY format
+
     public String toString() {
-        return String.format("%04d-%02d-%02d", year, month.ordinal() + 1, day);
+        return String.format("%02d-%02d-%04d", day, month.ordinal() + 1, year);
+    }
+
+    public static Date parse(String text) {
+        if (text == null || text.trim().isEmpty()) {
+            throw new IllegalArgumentException("Date text cannot be null or empty");
+        }
+        
+        text = text.trim();
+
+        if (!text.matches("\\d{2}-\\d{2}-\\d{4}")) {
+            throw new IllegalArgumentException("Date format does not follow DD-MM-YYYY format: " + text);
+        }
+        String[] parts = text.split("-");
+
+        try {
+            int day = Integer.parseInt(parts[0]);
+            int monthNumber = Integer.parseInt(parts[1]);
+            int year = Integer.parseInt(parts[2]);
+
+            if (monthNumber < 1 || monthNumber > 12) {
+                throw new IllegalArgumentException("Month out of range: " + monthNumber);
+            }
+            
+            if (year < 1) {
+                throw new IllegalArgumentException("Year must be positive: " + year);
+            }
+            
+            Month month = Month.values()[monthNumber -1];
+
+            return new Date(day, month, year);
+
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid numeric values in date: " + text);
+        }
     }
 }

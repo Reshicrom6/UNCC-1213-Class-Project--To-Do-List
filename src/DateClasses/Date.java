@@ -51,7 +51,7 @@ public class Date {
             case FEBRUARY:
                 maxDay = isLeapYear(year) ? 29 : 28; //when isLeapYear(year) is true, maxDay = 29, when false, maxDay = 28
                 break;
-            case APRIL: case JUNE: case SEPTEMBER: case NOVEMBER:
+            case APRIL, JUNE, SEPTEMBER, NOVEMBER:
                 maxDay = 30;
                 break;
             default:

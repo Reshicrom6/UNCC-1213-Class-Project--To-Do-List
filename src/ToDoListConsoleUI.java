@@ -61,16 +61,57 @@ public class ToDoListConsoleUI {
         }
     }
 
-        private void displayMenu() {
-            System.out.println("\n=== MAIN MENU ===");
-            System.out.println("1. Add new task");
-            System.out.println("2. Remove task");
-            System.out.println("3. Edit task");
-            System.out.println("4. View all tasks");
-            System.out.println("5. Mark task as complete");
-            System.out.println("6. Search tasks");
-            System.out.println("7. Apply filters");
-            System.out.println("8. Exit");
+    private void displayMenu() {
+        System.out.println("\n=== MAIN MENU ===");
+        System.out.println("1. Add new task");
+        System.out.println("2. Remove task");
+        System.out.println("3. Edit task");
+        System.out.println("4. View all tasks");
+        System.out.println("5. Mark task as complete");
+        System.out.println("6. Search tasks");
+        System.out.println("7. Apply filters");
+        System.out.println("8. Exit");
+    }
+    
+    private void addNewTask() {
+        String title = getStringInput("Enter task title: ");
+        String dueDateStr = getStringInput("Enter due date (YYYY-MM-DD): ");
+        String dueTimeStr = getStringInput("Enter due time (HH:MM): ");
+        Category category = Category.parse(getStringInput("Enter category (Work, Personal, Shopping, Others): "));
+        boolean isCompleted = getBooleanInput("Is the task completed?");
+
+        // Parse date and time
+        Date dueDate = Date.parse(dueDateStr);
+        Time dueTime = Time.parse(dueTimeStr);
+        
+
+        Task newTask = new Task(title, category, dueTime, dueDate, isCompleted);
+        toDoList.addTask(newTask);
+        System.out.println("Task added successfully!");
+    }
+
+    private void removeTask() {
+
+    }
+
+    private void editTask() {
+
+    }
+
+    private void viewAllTasks() {
+        System.out.println(toDoList);
+    }
+
+    private void markTaskComplete() {
+
+    }
+
+    private void searchTasks() {
+        
+    }
+
+    private void applyFilters() {
+
     }
 
     private String getStringInput(String prompt) {

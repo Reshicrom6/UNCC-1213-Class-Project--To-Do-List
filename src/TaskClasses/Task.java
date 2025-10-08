@@ -16,7 +16,7 @@ public class Task {
     private List<User> users; //list of users assigned to this task
     private String name; //the task title/name
     private Category category; //task category (predefined or custom)
-    private boolean isComplete = false; //completion status of the task
+    private boolean isComplete; //completion status of the task
     private DeadLine deadline = null; //optional deadline for task completion
     private Time time; //time associated with the task
     private Date date; //date associated with the task
@@ -32,6 +32,7 @@ public class Task {
         this.users = new ArrayList<>();
         this.time = new Time();
         this.date = new Date();
+        this.isComplete = false;
         numberOfTasks++;
     }
 
@@ -41,6 +42,18 @@ public class Task {
         this.category = new Category(category); //create copy to ensure encapsulation
         this.time = new Time(time); //create copy to ensure encapsulation
         this.date = new Date(date); //create copy to ensure encapsulation
+        this.isComplete = false;
+        this.users = new ArrayList<>();
+        numberOfTasks++;
+    }
+
+    public Task(String name, Category category, Time time, Date date, boolean isComplete) { //parameterized constructor - creates task with specified basic properties
+        this.taskId = -1;
+        this.name = name;
+        this.category = new Category(category); //create copy to ensure encapsulation
+        this.time = new Time(time); //create copy to ensure encapsulation
+        this.date = new Date(date); //create copy to ensure encapsulation
+        this.isComplete = isComplete;
         this.users = new ArrayList<>();
         numberOfTasks++;
     }
@@ -149,6 +162,14 @@ public class Task {
 
     public void removeUser(User user) { //removes a user from the task's assigned user list
         users.remove(user);
+    }
+
+    public void editUsers(int choice, User user) {
+        if (choice == 1) {
+            addUser(user);
+        } else if (choice == 2) {
+            removeUser(user);
+        }
     }
 
     //toString method - returns formatted string representation of the complete task

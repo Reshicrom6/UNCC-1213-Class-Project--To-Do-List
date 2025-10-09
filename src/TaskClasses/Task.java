@@ -98,8 +98,8 @@ public class Task {
         this.date = new Date(date);
     }
 
-    public void setComplete() { //marks the task as complete
-        isComplete = true;
+    public void setComplete(boolean status) { //changes the completion status of the task
+        isComplete = status;
     }
 
     public void setUsers(List<User> users) { //sets the list of assigned users
@@ -170,6 +170,26 @@ public class Task {
         } else if (choice == 2) {
             removeUser(user);
         }
+    }
+
+    //edits multiple fields of the task at once (null/empty parameters are ignored)
+    public void editTask(String newName, String newDescription, Time newTime, Date newDate, Category newCategory, boolean newStatus) {
+        if (newName != null && !newName.isEmpty()) {
+            setName(newName);
+        }
+        if (newDescription != null && !newDescription.isEmpty()) {
+            setDescription(newDescription);
+        }
+        if (newTime != null) {
+            settime(newTime);
+        }
+        if (newDate != null) {
+            setDate(newDate);
+        }
+        if (newCategory != null) {
+            setCategory(newCategory);
+        }
+        setComplete(newStatus);
     }
 
     //toString method - returns formatted string representation of the complete task
@@ -245,7 +265,11 @@ public class Task {
                 } else if (line.startsWith("Status: ")) {
                     String status = line.substring(8);
                     if ("Complete".equals(status)) {
-                        task.setComplete();
+                        task.setComplete(true);
+                    } else if ("Incomplete".equals(status)) {
+                        task.setComplete(false);
+                    } else {
+                        throw new IllegalArgumentException("Invalid status value: " + status);
                     }
                 } else if (line.startsWith("Users: ")) {
                     String usersStr = line.substring(7);

@@ -57,11 +57,10 @@ public class Date {
             default:
                 maxDay = 31;
         }
-        if (day < 1 || day > maxDay) {
+        if (day < 1 || day > maxDay) 
             throw new IllegalArgumentException("Day must be between 1 and " + maxDay + " for month " + month);
-        }
+        
         this.day = day;
-
         }
 
         //helper method to check if a year is a leap year

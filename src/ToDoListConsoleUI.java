@@ -30,34 +30,27 @@ public class ToDoListConsoleUI {
         System.out.println("====================================");
 
         while(true) {
+            System.out.println(toDoList);
             displayMenu();
-            var choice = getIntInput("Enter your choice: ");
+            var choice = getIntInput("Enter your choice: ", 1, 5);
             switch (choice) {
                 case 1:
                     addNewTask();
                     break;
-                case 2: 
+                case 2:
                     removeTask();
                     break;
                 case 3:
                     editTask();
                     break;
                 case 4:
-                    viewAllTasks();
-                    break;
-                case 5:
                     markTaskComplete();
                     break;
-                case 6:
-                    searchTasks();
-                    break;  
-                case 7:
-                    applyFilters();
-                    break;
-                case 8:
+                case 5:
                     System.out.println("Exiting the To-Do List Manager. Goodbye!");
                     return; //exit the program
             }
+            System.out.println();
         }
     }
 
@@ -91,55 +84,146 @@ public class ToDoListConsoleUI {
     }
 
     private void removeTask() {
-
+        isEmpty();
+        String title = getStringInput("Enter the title of the task to remove: ");
+        Task taskToRemove = toDoList.findTaskByName(title);
+        if (taskToRemove != null) {
+            toDoList.removeTask(taskToRemove);
+            System.out.println("Task removed successfully.");
+        } else {
+            System.out.println("Task not found.");
+        }
     }
 
     private void editTask() {
-
-    }
-
-    private void viewAllTasks() {
-        System.out.println(toDoList);
-    }
-
-    private void markTaskComplete() {
-
-    }
-
-    private void searchTasks() {
+        isEmpty();
+        Task taskToEdit;
+        String title = getStringInput("Enter the name of the task to edit: ");
+        if (toDoList.findTaskByName(title) == null) {
+            System.out.println("Task not found.");
+            String tryAgain = getStringInput("Would you like to try a different title? 'y' if yes. 'n' to exit.");
+            if (tryAgain.equalsIgnoreCase("y")) {
+                editTask();
+            } else {
+                return;
+            }
+        }
+        taskToEdit = toDoList.findTaskByName(title);
+        System.out.println("Task being edited:\n"+taskToEdit);
+        System.out.println("For incoming prompts, press Enter to skip editing the field in question.");
+        String newTitle = getStringInput("Enter new title: ");
+        String newDescription = getStringInput("Enter new description: ");
+        Date newDate = Date.parse(getStringInput("Enter new due date (MM-MM-YYYY): "));
+        Time newTime = Time.parse(getStringInput("Enter new due time (HH:MM): "));
         
+        Category newCategory = getNewCategory();
+        boolean newStatus = getBooleanInput("Is the task completed?");
+        
+        taskToEdit.editTask(newTitle, newDescription, newTime, newDate, newCategory, newStatus);
     }
 
-    private void applyFilters() {
+    private Category getNewCategory() {
+        Category category = null;
+        int choice = getIntInput(
+            "Select new category:\n" +
+            "1. School\n" +
+            "2. Work\n" +
+            "3. Appointment\n" +
+            "4. Event\n" +
+            "5. Chore\n" +
+            "6. Other\n" +
+            "Enter choice (1-6): ", 1, 6);
+        TaskCategory categoryType = switch (choice) {
+            case 1 -> TaskCategory.SCHOOL;
+            case 2 -> TaskCategory.WORK;
+            case 3 -> TaskCategory.APPOINTMENT;
+            case 4 -> TaskCategory.EVENT;
+            case 5 -> TaskCategory.CHORE;
+            case 6 -> TaskCategory.OTHER;
+            default -> null;
+        };
+        category = new Category(categoryType);
+        return category;  
+    } 
 
+
+    //marks a task as complete based on user input
+    private void markTaskComplete() {
+        isEmpty();
+        String title = getStringInput("Enter the title of the task to mark as complete: ");
+        Task taskToMark = toDoList.findTaskByName(title);
+        if (taskToMark != null) {
+            taskToMark.setComplete(true);
+            System.out.println("Task marked as complete.");
+        } else {
+            System.out.println("Task not found.");
+        }
+    }
+
+    //
+    // private void searchTasks() {
+    //     isEmpty();
+
+    // }
+
+    //
+    // private void applyFilters() {
+    //     isEmpty();
+    // }
+
+    //utility method to check if the to-do list is empty before operations
+    private void isEmpty() {
+        if(toDoList.getTasks().isEmpty()) {
+            System.out.println("No tasks to remove.");
+            var input = getStringInput("Would you like to add a task? 'y' if yes. 'n' to exit.");
+            if (input.equalsIgnoreCase("y")) {
+                addNewTask();
+            } else {
+                System.out.println("Exiting the To-Do List Manager. Goodbye!");
+                System.exit(0);
+            }
+        }
     }
 
     private String getStringInput(String prompt) {
-        scnr.nextLine(); //clear buffer
         System.out.println(prompt);
         return scnr.nextLine();
-        
     }
 
-    private int getIntInput(String prompt) {
-        scnr.nextLine(); //clear buffer
-        System.out.println(prompt);
-        var value = Integer.parseInt(scnr.nextLine()); 
-        while (!isValidInt(value)) {
-            System.out.println("Invalid input. Please enter a number between 1 and 8.");
-            value = Integer.parseInt(scnr.nextLine());
+    // //overloaded method for potential future use
+    // private int getIntInput(String prompt) {
+    //     while (true) {
+    //         try {
+    //             System.out.println(prompt);
+    //             return Integer.parseInt(scnr.nextLine().trim());
+    //         } catch (NumberFormatException e) {
+    //             System.out.println("Invalid input. Please enter a valid number.");
+    //         }
+    //     }
+    // }
+
+    private int getIntInput(String prompt, int min, int max) {
+        while (true) {
+            try {
+                System.out.println(prompt);
+                int value = Integer.parseInt(scnr.nextLine().trim());
+            if (value >= min && value <= max) {
+                return value;
+            }
+            } catch (NumberFormatException e) {
+            System.out.println("Input must be between " + min + " and " + max + ". Please try again.");
+    
+            }
         }
-        return value;
     }
     //
-    private boolean isValidInt(int value) {
-        return value >= 1 && value <= 8; //valid menu choices
-    }
+    // private boolean isValidInt(int value) {
+    //     return value >= 1 && value <= 8; //valid menu choices
+    // }
 
     private boolean getBooleanInput(String prompt) {
-        scnr.nextLine(); //clear buffer
         System.out.println(prompt + " (y/n): ");
-        var input = scnr.nextLine().trim().toLowerCase();
+        String input = scnr.nextLine().trim().toLowerCase();
         while (!input.equals("y") && !input.equals("n")) {
             System.out.println("Invalid input. Please enter 'y' or 'n'.");
             input = scnr.nextLine().trim().toLowerCase();

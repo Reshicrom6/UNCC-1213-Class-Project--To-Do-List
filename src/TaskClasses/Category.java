@@ -54,8 +54,6 @@ public class Category {
         return customCategory;
     }
 
-    
-
     // Helper method to create a category with custom text
     public static Category createCustomCategory(String customText) {
         Category cat = new Category(TaskCategory.OTHER, customText);

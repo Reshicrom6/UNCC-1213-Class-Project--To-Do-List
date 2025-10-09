@@ -46,9 +46,8 @@ public class User {
     }
 
     //toString method - returns the user's name for display purposes
-    @Override
     public String toString() {
-        return name;
+        return "Name: " + name;
     }
 
     public static User parse(String text) {

@@ -59,12 +59,14 @@ public class ToDoList {
     }
 
     //task management methods
-    public void addTask(Task task) { //adds a task to the list
+    public Task addTask(Task task) { //adds a task to the list, returns the added task
         tasks.add(task);
+        return task;
     }
     
-    public void removeTask(Task task) { //removes a task from the list
+    public Task removeTask(Task task) { //removes a task from the list, returns the removed task
         tasks.remove(task);
+        return task;
     }
 
     //task editing method - updates task properties at specified index, returns true if successful

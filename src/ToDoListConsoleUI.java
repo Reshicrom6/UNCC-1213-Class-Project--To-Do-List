@@ -125,14 +125,15 @@ public class ToDoListConsoleUI {
     private Category getNewCategory() {
         Category category = null;
         int choice = getIntInput(
-            "Select new category:\n" +
-            "1. School\n" +
-            "2. Work\n" +
-            "3. Appointment\n" +
-            "4. Event\n" +
-            "5. Chore\n" +
-            "6. Other\n" +
-            "Enter choice (1-6): ", 1, 6);
+                """
+                        Select new category:
+                        1. School
+                        2. Work
+                        3. Appointment
+                        4. Event
+                        5. Chore
+                        6. Other
+                        Enter choice (1-6):\s""", 1, 6);
         TaskCategory categoryType = switch (choice) {
             case 1 -> TaskCategory.SCHOOL;
             case 2 -> TaskCategory.WORK;
@@ -216,7 +217,7 @@ public class ToDoListConsoleUI {
             }
         }
     }
-    //
+
     // private boolean isValidInt(int value) {
     //     return value >= 1 && value <= 8; //valid menu choices
     // }

@@ -1,0 +1,23 @@
+# IDE metadata
+.idea/
+*.iml
+.project
+.classpath
+
+# VS Code workspace (optional to track)
+.vscode/
+
+# Build outputs
+bin/
+out/
+target/
+*.class
+
+# Logs and crash files
+*.log
+hs_err_pid*.log
+replay_pid*.log
+
+# OS-specific
+.DS_Store
+Thumbs.db

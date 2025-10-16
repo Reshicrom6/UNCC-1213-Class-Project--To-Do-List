@@ -1,59 +1,101 @@
 /**
- * Example program demonstrating the usage of the ToDoList system.
- * This class shows how to create tasks with different categories, dates, times,
- * and demonstrates basic operations like adding tasks and displaying the list.
+ * Example program demonstrating basic SQLite persistence using TaskDAO.
  *
- * @author  Jed Duncan
- * @version Sep 29, 2025
+ * It will:
+ *  - Clear existing demo data (using dao.clearAll())
+ *  - Create a couple of users and tasks
+ *  - Save tasks to the database (auto-creating tables on first run)
+ *  - Query tasks back and print them
+ *  - Update a task and show the result
  */
 import TaskClasses.*;
-import DateClasses.*;
+import DateClasses.Date;
+import DateClasses.Month;
 import TimeClasses.*;
+
+import java.util.List;
 
 public class ToDoListExample {
     public static void main(String[] args) {
-        //create a new to-do list with a custom name
-        ToDoList myList = new ToDoList("My Example List");
+        TaskDAO dao = new TaskDAO();
 
-        //create different categories for task organization
-        Category schoolCategory = new Category(TaskCategory.SCHOOL);
-        Category workCategory   = new Category(TaskCategory.WORK);
-        Category otherCategory  = new Category(TaskCategory.OTHER);
+        // Start fresh for the example
+        dao.clearAll();
 
-        //create dates and times for various tasks
-        //presentation task - event date/time for October 2nd at 10:15 AM
-        Date eventDate = new Date(2, Month.OCTOBER, 2025);
-        Time eventTime = new Time(10, 15, ClockType.TWELVE_HOUR, HourPeriod.AM);
+        // Create some users and persist them (saveUser upserts by name)
+        User alice = new User("Alice");
+        User bob   = new User("Bob");
+        dao.saveUser(alice);
+        dao.saveUser(bob);
 
-        //meeting task - scheduled for October 5th at 9:00 AM
-        Date meetingDate = new Date(5, Month.OCTOBER, 2025);
-        Time meetingTime = new Time(9, 0, ClockType.TWELVE_HOUR, HourPeriod.AM);
+        // Categories
+        Category work   = new Category(TaskCategory.WORK);
+        Category school = new Category(TaskCategory.SCHOOL);
 
-        //advisor call - scheduled for October 12th at 11:15 AM
-        Date callDate = new Date(12, Month.OCTOBER, 2025);
-        Time callTime = new Time(11, 15, ClockType.TWELVE_HOUR, HourPeriod.AM);
+        // Dates/times
+        Date today = new Date(16, Month.OCTOBER, 2025);
+        Time morning = new Time(9, 0, ClockType.TWELVE_HOUR, HourPeriod.AM);
+        Time afternoon = new Time(2, 30, ClockType.TWELVE_HOUR, HourPeriod.PM);
 
-        //create tasks with name, category, time, and date
-        Task prepTask    = new Task("Prepare Presentation", schoolCategory, eventTime, eventDate);
-        Task meetingTask = new Task("Team Status Meeting", workCategory, meetingTime, meetingDate);
-        Task callTask    = new Task("Advisor Call", otherCategory, callTime, callDate);
+        // Create tasks
+        Task report = new Task("Write Report", work, morning, today);
+        report.setDescription("Draft quarterly report");
+        report.addUser(alice);
 
-        //add all tasks to the to-do list
-        // myList.addTask(prepTask);
-        // myList.addTask(meetingTask);
-        // myList.addTask(callTask);
+        Task study = new Task("Study for Exam", school, afternoon, today);
+        study.setDescription("Chapters 5-7");
+        study.addUser(bob);
 
-        // //display all tasks in the list
-        // System.out.println("All tasks:");
-        // for (Task t : myList.getTasks()) {
-        //     System.out.println(t); //uses each task's toString() method for formatting
-        // }
-        
-        String taskParseExample = prepTask.toString();
-        System.out.println("Task to Parse:");
-        System.out.println(taskParseExample);
-        Task parsedTask = Task.parse(taskParseExample);
-        System.out.println("Parsed Task:");
-        System.out.println(parsedTask);
-    }   
+        // Save tasks (INSERT). IDs are assigned on save.
+        dao.save(report);
+        dao.save(study);
+
+        System.out.println("All tasks after insert:");
+        printTasks(dao.findAll());
+
+        // Update a task
+        report.setName("Write Final Report");
+        report.setComplete(true);
+        dao.update(report);
+
+        System.out.println("\nTask fetched by ID after update:");
+        Task fetched = dao.findById(report.getTaskId());
+        printTask(fetched);
+
+        System.out.println("\nTasks matching name 'final':");
+        printTasks(dao.findByName("final"));
+
+        System.out.println("\nTasks in WORK category:");
+        printTasks(dao.findByCategory(work));
+
+        System.out.println("\nTotal task count: " + dao.getTaskCount());
+    }
+
+    private static void printTasks(List<Task> tasks) {
+        if (tasks == null || tasks.isEmpty()) {
+            System.out.println("(none)");
+            return;
+        }
+        for (Task t : tasks) {
+            printTask(t);
+            System.out.println();
+        }
+    }
+
+    private static void printTask(Task t) {
+        if (t == null) {
+            System.out.println("(null)");
+            return;
+        }
+        System.out.println("ID: " + t.getTaskId());
+        System.out.println(t.toString());
+        if (t.getUsers() != null && !t.getUsers().isEmpty()) {
+            System.out.print("Assigned Users: ");
+            for (int i = 0; i < t.getUsers().size(); i++) {
+                System.out.print(t.getUsers().get(i).getName());
+                if (i < t.getUsers().size() - 1) System.out.print(", ");
+            }
+            System.out.println();
+        }
+    }
 }

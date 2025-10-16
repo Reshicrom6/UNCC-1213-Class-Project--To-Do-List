@@ -36,7 +36,7 @@ public class ToDoListConsoleUI {
         while(true) {
             System.out.println(toDoList);
             displayMenu();
-            var choice = getIntInput("Enter your choice: ", 1, 5);
+            var choice = getIntInput("Enter your choice (1-7): ", 1, 7);
             switch (choice) {
                 case 1 -> 
                     addNewTask(); 
